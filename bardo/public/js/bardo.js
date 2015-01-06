@@ -1,14 +1,10 @@
 if ( ! Detector.webgl ) {
-
     Detector.addGetWebGLMessage();
     document.getElementById( 'container' ).innerHTML = "";
-
 }
 
 var container, stats;
-
 var camera, controls, scene, renderer;
-
 var mesh, texture;
 
 var worldWidth = 256, worldDepth = 256,
@@ -16,21 +12,18 @@ worldHalfWidth = worldWidth / 2, worldHalfDepth = worldDepth / 2;
 
 var clock = new THREE.Clock();
 
-init();
-animate();
-
 function init() {
 
-    container = document.getElementById( 'container' );
+    container = document.getElementById('container');
 
-    camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 10000 );
+    camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 10000);
 
     controls = new THREE.FirstPersonControls( camera );
     controls.movementSpeed = 150;
     controls.lookSpeed = 0.1;
 
     scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2( 0xefd1b5, 0.0025 );
+    // scene.fog = new THREE.FogExp2( 0xefd1b5, 0.0025 );
 
     data = generateHeight( worldWidth, worldDepth );
 
@@ -55,7 +48,8 @@ function init() {
 
     renderer = new THREE.WebGLRenderer();
     renderer.setClearColor( 0xefd1b5 );
-    renderer.setSize( window.innerWidth, window.innerHeight );
+    // renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.setSize( window.innerWidth, 250);
 
     container.innerHTML = "";
 
@@ -64,26 +58,30 @@ function init() {
     stats = new Stats();
     stats.domElement.style.position = 'absolute';
     stats.domElement.style.top = '0px';
-    container.appendChild( stats.domElement );
+    container.appendChild(stats.domElement);
 
+    window.addEventListener('resize', onWindowResize, false);
+    window.addEventListener('focus', onWindowFocus, false);
+    window.addEventListener('blur', onWindowBlur, false);
+}
 
-    //
+function onWindowFocus() {
+    if (controls) controls.freeze = false;
+}
 
-    window.addEventListener( 'resize', onWindowResize, false );
-
+function onWindowBlur() {
+    if (controls) controls.freeze = true;
 }
 
 function onWindowResize() {
-
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
 
     renderer.setSize( window.innerWidth, window.innerHeight );
 
     controls.handleResize();
-
 }
-
+  
 function generateHeight( width, height ) {
 
     var size = width * height, data = new Uint8Array( size ),
@@ -173,21 +171,16 @@ function generateTexture( data, width, height ) {
 
 }
 
-//
-
 function animate() {
-
     requestAnimationFrame( animate );
-
     render();
     stats.update();
-
 }
-
 
 function render() {
-
     controls.update( clock.getDelta() );
     renderer.render( scene, camera );
-
 }
+
+init();
+animate();
