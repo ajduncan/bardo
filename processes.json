@@ -1,0 +1,18 @@
+{
+  "apps" : [{
+    "name"        : "bardo",
+    "script"      : "app.js",
+    "log_date_format"  : "YYYY-MM-DD HH:mm Z",
+    "log_file"   : "../logs/bardo.log",
+    "error_file" : "../logs/bardo-err.log",
+    "out_file"   : "../logs/bardo-out.log",
+    "pid_file"   : "../logs/bardo.pid",
+    "ignoreWatch" : ["node_modules"],
+    "watch"       : true,
+    "cwd"         : "/vagrant/bardo",
+    "env": {
+        "NODE_ENV": "development",
+        "NODE_PATH": "/vagrant"
+    }
+  }]
+}
