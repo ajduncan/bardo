@@ -17,9 +17,10 @@
     "start": "node server"
   },
   "dependencies": {
-    "socket.io": "1.2.x",
+    "body-parser": "1.10.x",
     "express": "4.10.x",
     "express-handlebars": "1.1.x",
-    "simple-oauth2": "0.2.x"
+    "simple-oauth2": "0.2.x",
+    "socket.io": "1.2.x"
   }
 }

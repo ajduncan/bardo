@@ -1,6 +1,7 @@
-var express = require('express'), 
-    app     = express(),
-    exphbs  = require('express-handlebars');
+var express    = require('express'), 
+    app        = express(),
+    bodyParser = require('body-parser'),
+    exphbs     = require('express-handlebars');
 
 
 handlebars = exphbs.create({
@@ -14,6 +15,9 @@ app.set('view engine', 'html');
 app.use('/static', express.static(__dirname + '/public'))
 // app.use(require('./middlewares/users'))
 // app.use(require('./controllers'))
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+
 
 app.get('/', function (req, res) {
     res.render('home');
@@ -23,7 +27,14 @@ app.get('/login', function (req, res) {
     res.render('login');
 });
 
-app.get('/auth', function (req, res) {
+app.post('/login', function (req, res) {
+    var username = req.body.username;
+    var password = req.body.password;
+
+    if ((!username) || (!password)) {
+        res.redirect('/login');
+    }
+
     var token;
     var credentials = {
         clientID: 'thom',
@@ -34,13 +45,14 @@ app.get('/auth', function (req, res) {
     var oauth2 = require('simple-oauth2')(credentials);
 
     oauth2.password.getToken({        
-        username: 'thomseddon',
-        password: 'nightworld'
+        username: username,
+        password: password
     }, saveToken);
 
     function saveToken(error, result) {
         if (error) { 
             console.log('Access Token Error', error.message); 
+            res.redirect('/login');
         } else {
             token = oauth2.accessToken.create(result);
             res.send(token);
