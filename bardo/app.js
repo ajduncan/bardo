@@ -3,10 +3,21 @@ var express    = require('express'),
     bodyParser = require('body-parser'),
     exphbs     = require('express-handlebars');
 
-
 handlebars = exphbs.create({
     defaultLayout: 'main',
-    extname      : '.html' 
+    extname      : '.html',
+    helpers: {
+        block: function(name) {
+            var blocks = this._blocks;
+            content = blocks && blocks[name];
+            return content ? content.join('\n') : null;
+        },
+        contentFor: function(name, options) {
+            var blocks = this._blocks || (this._blocks = {});
+            block = blocks[name] || (blocks[name] = []);
+            block.push(options.fn(this));
+        }
+    } 
 });
 
 app.engine('html', handlebars.engine);
@@ -17,7 +28,6 @@ app.use('/static', express.static(__dirname + '/public'))
 // app.use(require('./controllers'))
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-
 
 app.get('/', function (req, res) {
     res.render('home');
