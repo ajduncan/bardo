@@ -13,12 +13,13 @@ worldHalfWidth = worldWidth / 2, worldHalfDepth = worldDepth / 2;
 var clock = new THREE.Clock();
 
 function init() {
+    renderer = new THREE.WebGLRenderer();
 
     container = document.getElementById('container');
 
     camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 10000);
 
-    controls = new THREE.FirstPersonControls( camera );
+    controls = new THREE.FirstPersonControls(camera, renderer.domElement);
     controls.movementSpeed = 150;
     controls.lookSpeed = 0.1;
 
@@ -46,10 +47,9 @@ function init() {
     mesh = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { map: texture } ) );
     scene.add( mesh );
 
-    renderer = new THREE.WebGLRenderer();
     renderer.setClearColor( 0xefd1b5 );
     // renderer.setSize( window.innerWidth, window.innerHeight );
-    renderer.setSize( window.innerWidth, 250);
+    renderer.setSize( window.innerWidth, 150);
 
     container.innerHTML = "";
 
