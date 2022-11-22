@@ -21,6 +21,6 @@
     "express": "4.10.x",
     "express-handlebars": "1.1.x",
     "simple-oauth2": "0.2.x",
-    "socket.io": "1.2.x"
+    "socket.io": "2.5.0"
   }
 }
