@@ -17,8 +17,8 @@
     "start": "node server"
   },
   "dependencies": {
-    "body-parser": "1.10.x",
-    "express": "4.10.x",
+    "body-parser": "1.19.2",
+    "express": "4.17.3",
     "express-handlebars": "1.1.x",
     "simple-oauth2": "0.2.x",
     "socket.io": "1.2.x"
